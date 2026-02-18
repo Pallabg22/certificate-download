@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<title>Participation Certificate</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<div class="page-header">
+    <h1 class="main-title">
+        New Prajanmo E Magazine<br>
+        নিউ প্রজন্ম ই–পত্রিকা
+    </h1>
+
+    <div class="divider"></div>
+
+    <h2 class="title">Participant Certificate Download</h2>
+</div>
+
+<!-- ================= SEARCH ================= -->
+<input
+    type="text"
+    id="search"
+    placeholder="নাম খুঁজুন..."
+    onkeyup="filterNames()"
+>
+
+<div class="list" id="list"></div>
+
+<hr>
+
+<!-- ================= CERTIFICATE ================= -->
+<div class="certificate" id="certificate">
+
+    <div class="logo">
+        <img src="logo.png.jpg" alt="Logo">
+    </div>
+
+    <h1>সম্মাননা পত্র</h1>
+
+    <p id="category" class="category"></p>
+
+    <p id="serial" class="serial"></p>
+
+    <div id="name" class="name"></div>
+
+    <p class="text">
+        নিউ প্রজন্ম ই–পত্রিকার পক্ষ থেকে সংশ্লিষ্ট বিভাগে যুক্ত হওয়ার জন্য
+        আপনাকে আন্তরিক অভিনন্দন ও শুভেচ্ছা।<br><br>
+
+        আপনার সৃজনশীল ভাবনা ও সাহিত্যচর্চার আন্তরিক প্রয়াসে
+        আমাদের এই সাহিত্যযাত্রা আরও সমৃদ্ধ হয়েছে।
+        সাহিত্যপথে আপনার নিরন্তর অগ্রযাত্রা কামনা করি।
+    </p>
+
+    <div class="footer">
+        <div class="sign">
+            <div class="line"></div>
+            <p><strong>Pallab Guchhait</strong></p>
+            <p>Editor</p>
+        </div>
+
+        <div class="date">
+            <div class="line"></div>
+            <p id="date"></p>
+            <p>
+                নিউ প্রজন্ম ই–পত্রিকা পরিবার<br>
+                ও কবিতার ঝুড়ি সাহিত্য পত্রিকা
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- ================= JAVASCRIPT ================= -->
+<script>
+/* ================= FINAL DATA (FROM ADMIN) ================= */
+
+const sections = {
+    "কবিতা / ছড়া": [
+        "সুমিতা চৌধুরী",
+        "প্রসেনজিৎ বিশ্বাস",
+        "জয়নাল আবেদিন",
+        "উদায় নারায়ণ বাগ",
+        "গোবিন্দ মোদক",
+        "সৌরদীপ অধিকারী",
+        "রথীন পার্থ মণ্ডল",
+        "শ্রীকান্ত মন্ডল",
+        "বিভূতি বিশ্বাস",
+        "সুবীর কুমার ঘোষ",
+        "মলয় কুমার ঘটক",
+        "স্বয়মদীপ্তা মিত্র",
+        "সৌম্যজিৎ রায়",
+        "মধুমিতা রায়",
+        "অজিত কুমার জানা",
+        "দীপক রায়",
+        "দীপজয় সরকার",
+        "সমীর কুমার দত্ত",
+        "সমর গোস্বামী",
+        "ত্রিদিবেশ দে",
+        "কাকলী ভট্টাচার্য্য",
+        "Swagata Banerjee",
+        "প্রিয়াংশু বিশ্বাস",
+        "বিনিময় দাস",
+        "প্রণব শংকর গাঙ্গুলি",
+        "প্রতীক মিত্র",
+        "সুদীপ্ত পারিয়াল",
+        "সুশান্ত সেন",
+        "তাপস মাইতি",
+        "জীবন সরখেল",
+        "দিলীপ কুমার পাত্র"
+    ],
+    "গল্প/অনুগল্প": [
+        "শ্রেয়া দত্ত",
+        "দ্যুতি রায়",
+        "রবীন বসু",
+        "সুশীল বন্দ্যোপাধ্যায়",
+        "Aditi Chatterjee",
+        "প্রমথ রায়",
+        "প্রদীপ কুমার দে",
+        "জয়নাল আবেদিন",
+        "মাখনলাল প্রধান",
+        "সুশীল বন্দ্যোপাধ্যায়",
+        "অর্পিতা রায়",
+        "কৃশানু ব্যানার্জী",
+        "শুভজিৎ দত্তগুপ্ত"
+    ]
+};
+
+/* =========================================================== */
+
+const listDiv = document.getElementById("list");
+
+/* ===== LIST RENDER ===== */
+function renderList(filter = "") {
+    listDiv.innerHTML = "";
+    let serial = 1;
+
+    for (const section in sections) {
+        const h = document.createElement("h3");
+        h.innerText = section;
+        listDiv.appendChild(h);
+
+        sections[section].forEach(name => {
+            if (!name.includes(filter)) return;
+
+            const row = document.createElement("div");
+            row.className = "row";
+
+            row.innerHTML = `
+                <span>${serial}. ${name}</span>
+                <button data-name="${name}" data-section="${section}" data-serial="${serial}">
+                    Download
+                </button>
+            `;
+
+            row.querySelector("button").onclick = function () {
+                handleDownload(this);
+            };
+
+            listDiv.appendChild(row);
+            serial++;
+        });
+    }
+}
+
+renderList();
+
+function filterNames() {
+    renderList(document.getElementById("search").value);
+}
+
+/* ===== DATE + PRINT ===== */
+function setDate() {
+    document.getElementById("date").innerText =
+        new Date().toLocaleDateString("bn-BD", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
+}
+
+function adjustNameSize(name) {
+    const el = document.getElementById("name");
+    el.innerText = name;
+    el.style.fontSize =
+        name.length > 25 ? "26px" :
+        name.length > 18 ? "30px" : "34px";
+}
+
+function handleDownload(btn) {
+    adjustNameSize(btn.dataset.name);
+    document.getElementById("category").innerText = btn.dataset.section;
+    document.getElementById("serial").innerText =
+        "Certificate No: NP-" + btn.dataset.serial.padStart(3, "0");
+    setDate();
+    setTimeout(() => window.print(), 300);
+}
+</script>
+
+</body>
+</html>

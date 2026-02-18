@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel – CSV Upload</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================= LOGIN BOX ================= -->
+<div id="loginBox" style="max-width:420px;margin:40px auto;text-align:center;">
+    <h2>🔐 Admin Login</h2>
+
+    <input
+        type="password"
+        id="password"
+        placeholder="Admin Password"
+        style="padding:10px;width:80%;"
+    >
+    <br><br>
+
+    <button onclick="login()" style="padding:8px 20px;">
+        Login
+    </button>
+
+    <p style="color:#777;margin-top:10px;">
+        (Admin-only access)
+    </p>
+</div>
+
+<!-- ================= ADMIN PANEL ================= -->
+<div id="adminPanel" style="display:none;">
+
+    <div class="page-header">
+        <h2 class="title">Admin Panel – CSV Upload</h2>
+    </div>
+
+    <p style="text-align:center;">
+        CSV ফাইল upload করুন (Column: নাম, বিভাগ)
+    </p>
+
+    <button onclick="logout()" style="display:block;margin:0 auto 15px;">
+        Logout
+    </button>
+
+    <input 
+        type="file" 
+        id="csvFile" 
+        accept=".csv"
+        style="display:block;margin:15px auto;"
+    >
+
+    <pre id="output"
+style="
+max-width:900px;
+margin:20px auto;
+background:#111;
+color:#0f0;
+padding:20px;
+overflow:auto;
+">
+    </pre>
+
+    <p style="text-align:center;">
+       
+        <strong>index.html</strong> ফাইলে  
+        <code>const sections = {}</code> জায়গায় paste করুন
+    </p>
+</div>
+
+<!-- ================= JAVASCRIPT ================= -->
+<script>
+/* ================= CONFIG ================= */
+const ADMIN_PASSWORD = "admin123"; 
+// 🔴 এখানে নিজের strong password দিন
+
+/* ================= LOGIN LOGIC ================= */
+function login() {
+    const pass = document.getElementById("password").value;
+
+    if (pass === ADMIN_PASSWORD) {
+        localStorage.setItem("adminLoggedIn", "yes");
+        showAdmin();
+    } else {
+        alert("❌ Password ভুল");
+    }
+}
+
+function logout() {
+    localStorage.removeItem("adminLoggedIn");
+    location.reload();
+}
+
+function showAdmin() {
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("adminPanel").style.display = "block";
+}
+
+function checkLogin() {
+    if (localStorage.getItem("adminLoggedIn") === "yes") {
+        showAdmin();
+    }
+}
+
+checkLogin();
+
+/* ================= CSV LOAD ================= */
+document.getElementById("csvFile").addEventListener("change", function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = evt => convertCSV(evt.target.result);
+    reader.readAsText(file, "UTF-8");
+});
+
+function convertCSV(text) {
+    const lines = text.trim().split(/\r?\n/);
+    const sections = {};
+
+    for (let i = 1; i < lines.length; i++) {
+        if (!lines[i]) continue;
+
+        const cols = lines[i].split(",");
+        if (cols.length < 2) continue;
+
+        const name = cols[0].trim();
+        const section = cols[1].trim();
+
+        if (!name || !section) continue;
+
+        if (!sections[section]) {
+            sections[section] = [];
+        }
+
+        sections[section].push(name);
+    }
+
+    document.getElementById("output").innerText =
+`👇 index.html এ এই কোডটা paste করুন 👇
+
+const sections = ${JSON.stringify(sections, null, 4)};
+`;
+}
+</script>
+
+</body>
+</html>
