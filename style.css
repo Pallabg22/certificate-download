@@ -1,10 +1,13 @@
+/* ================= BASE ================= */
+
 body {
     font-family: "Noto Serif Bengali", serif;
     background: #f2f2f2;
     padding: 20px;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
+
 .page-header {
     text-align: center;
     margin-bottom: 30px;
@@ -28,15 +31,17 @@ body {
     margin: 15px auto;
 }
 
-/* INPUT */
-#search, #csvFile {
+/* ================= INPUT ================= */
+
+#search {
     display: block;
     margin: 10px auto;
     padding: 8px;
     width: 300px;
 }
 
-/* LIST */
+/* ================= LIST ================= */
+
 .list {
     max-width: 600px;
     margin: 0 auto;
@@ -57,25 +62,23 @@ body {
     padding: 5px 10px;
 }
 
-/* ================= CERTIFICATE BASE ================= */
+/* =====================================================
+   🏆 CERTIFICATE – SINGLE PAGE, PURE CSS DESIGN
+   ===================================================== */
 
 .certificate {
-    width: 816px;          /* Legal Portrait */
-    height: 1344px;
-    margin: 40px auto;
-    padding: 140px 120px;
+    width: 816px;                 /* Legal width */
+    height: 1344px;               /* Legal height */
+    margin: 0 auto;
+    padding: 110px 90px;
     box-sizing: border-box;
     position: relative;
     text-align: center;
 
-    /* 🎨 Premium background (no image) */
-    background: linear-gradient(
-        135deg,
-        #ffe29f,
-        #ffa751
-    );
-
+    background: linear-gradient(135deg, #ffe29f, #ffa751);
     font-family: "Noto Serif Bengali", serif;
+
+    page-break-inside: avoid;
 }
 
 /* ================= DECORATIVE BORDER ================= */
@@ -88,97 +91,87 @@ body {
     right: 30px;
     bottom: 30px;
 
-    border: 12px solid #7a4a1f;
+    border: 10px solid #7a4a1f;
     box-shadow:
-        inset 0 0 0 6px #f5d08a,
-        inset 0 0 0 12px #7a4a1f;
+        inset 0 0 0 5px #f5d08a,
+        inset 0 0 0 10px #7a4a1f;
 
     pointer-events: none;
 }
 
-/* ================= LOGO PLACEHOLDER ================= */
+/* ================= LOGO ================= */
 
 .certificate .logo {
     width: 120px;
-    height: 120px;
     margin: 0 auto 25px;
-    border-radius: 50%;
-    border: 4px solid #7a4a1f;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    color: #7a4a1f;
+}
+
+.certificate .logo img {
+    width: 100%;
 }
 
 /* ================= TITLE ================= */
 
 .certificate h1 {
-    font-size: 50px;
+    font-size: 48px;
     color: #e53935;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     letter-spacing: 2px;
 }
 
-/* ================= CATEGORY ================= */
+/* ================= CATEGORY & SERIAL ================= */
 
-.certificate .category {
-    font-size: 22px;
+.category {
+    font-size: 20px;
     font-weight: bold;
-    margin-bottom: 20px;
-    color: #000;
+    margin-bottom: 10px;
 }
 
-/* ================= SERIAL ================= */
-
-.certificate .serial {
+.serial {
     font-size: 14px;
     text-align: right;
     margin-bottom: 20px;
-    color: #333;
 }
 
 /* ================= NAME ================= */
 
-.certificate .name {
+.name {
     font-size: 34px;
     font-weight: bold;
-    margin: 35px 0;
-    color: #000;
+    margin: 30px 0;
+    text-decoration: underline;
 }
 
 /* ================= BODY TEXT ================= */
 
-.certificate .text {
+.text {
     font-size: 21px;
-    line-height: 1.8;
+    line-height: 1.7;
     margin: 20px 0;
-    color: #000;
 }
 
 /* ================= FOOTER ================= */
 
-.certificate .footer {
+.footer {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-top: 150px;
-    padding: 0 40px;
+    margin-top: 110px;
+    padding: 0 30px;
 }
 
-.certificate .sign,
-.certificate .date {
-    width: 300px;
+.sign,
+.date {
+    width: 280px;
     text-align: center;
 }
 
-/* Signature line */
-.certificate .line {
+.line {
     border-bottom: 2px solid #000;
     margin-bottom: 10px;
 }
 
-/* ================= PRINT PERFECT ================= */
+/* ================= PRINT – HARD FIX ================= */
 
 @page {
     size: legal portrait;
@@ -186,6 +179,15 @@ body {
 }
 
 @media print {
+
+    html, body {
+        width: 816px;
+        height: 1344px;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
     body * {
         visibility: hidden;
     }
@@ -197,76 +199,16 @@ body {
 
     .certificate {
         position: absolute;
-        left: 0;
-        top: 0;
-    }
-}
-
-
-.logo img {
-    width: 160px;
-}
-
-.category {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.serial {
-    font-size: 14px;
-    text-align: right;
-}
-
-.name {
-    font-size: 34px;
-    font-weight: bold;
-    margin: 30px 0;
-    text-decoration: underline;
-}
-
-.text {
-    font-size: 21px;
-    line-height: 1.7;
-}
-
-/* FOOTER */
-.footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 160px;
-}
-
-.sign, .date {
-    width: 280px;
-    text-align: center;
-}
-
-.line {
-    border-bottom: 2px solid #000;
-    margin-bottom: 10px;
-}
-
-/* PRINT */
-@page {
-    size: legal portrait;
-    margin: 0;
-}
-
-@media print {
-    body * {
-        visibility: hidden;
-    }
-    .certificate, .certificate * {
-        visibility: visible;
-    }
-    .certificate {
-        position: absolute;
         top: 0;
         left: 0;
+
+        page-break-after: avoid;
+        page-break-before: avoid;
     }
 }
 
-/* MOBILE */
+/* ================= MOBILE VIEW ================= */
+
 @media (max-width: 768px) {
     .certificate {
         transform: scale(0.7);
